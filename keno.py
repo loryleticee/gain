@@ -2,121 +2,96 @@
 import os, sys
 import csv
 from datetime import datetime
+from utils import getMoon, dicto , showPourcent, delOldFiles, daySort , reverseCompare, topNumbers, tops
 
-nbrTirage = 997
+nbr_tirage = 60 #(997)
 
 ##Chemin où sont placées les fichiers csv
-path = './loto'
+path = './keno'
 
-#04/11/2019 <--> 27/04/2020 ####### novembre 2019 à maintenant (Retelecharger le ficher à chaque nouveau tirage)
-nov19ToNow = '/loto_201911.csv'
+#04/11/2019 <--> 29/04/2020 ####### novembre 2019 à maintenant (Retelecharger le ficher à chaque nouveau tirage)
+nov19ToNow = '/keno_201811.csv'
 
 #27/02/2019 <--> 02/11/2019
-fev19ToNov10 = '/loto_201902.csv'
+fev19ToNov10 = '/keno_gagnant_a_vie.csv'
 
 #06/03/2017 <--> 25/02/2019  
-mar17ToFev19 = '/loto2017.csv'
-
-#06/10/2008 <--> 04/03/2017
-oct08ToMar17 = '/nouveau_loto.csv'
-
-#19/05/1976 <--> 04/10/2008
-#may76ToOct08 = '/loto.csv'
+mar17ToFev19 = '/keno.csv'
 
 # Les 3 derniers fichiers csv ne sont pas formatés de la meme façon , la colonne des resultats est L au lieu de M
-csv_files = [nov19ToNow, fev19ToNov10, mar17ToFev19, oct08ToMar17]#, may76ToOct08]
+csv_files = [nov19ToNow, fev19ToNov10, mar17ToFev19]#, may76ToOct08]
 
 # Tableau qui sera comparé avec tous les autres tableaux suivant
 aRef = []
+die_daySort = False
+lap_more = 0
+lap = 1
+range_week = 0
 
-tirage = 1
-
-tops = {}
-
-rangeWeek = 0
-
-one_diff = {}
-
-def createOneDiff(sDate, aFinal, aRef):
-    day_name= ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday']
-    day = datetime.datetime.strptime(date, '%d %m %Y').weekday()
-    
-    one_diff[]
-    return (day_name[day]) 
-
-def topNumbers(tops, aFinal):
-    for number in aFinal:
-        if (tops.get("{}".format(number)) is None):
-            numa = 0
-        else:
-            numa = tops.get("{}".format(number))
-
-        tops["{}".format(number)] =  1 + numa
-
-def compare(tops, tirage, aRef, nbrTirage, rangeWeek, user_input):
-    for fileLap, document in enumerate(csv_files):
+def compare(nbr_tirage, user_input):
+    global aRef
+    global range_week
+    global tops
+    global lap
+    global lap_more
+    for file_lap, document in enumerate(csv_files):
         with open(path+document, 'r') as csv_file:
             csv_tirages = csv.reader(csv_file, delimiter=';')
             
-            for tirageLap, row in enumerate(csv_tirages):
-                if (tirageLap == 0):
+            for row_lap, row in enumerate(csv_tirages):
+                if (row_lap == 0):
                     continue
+                
+                sTirage = row[4:24]
+                sDate = row[1]# Transforme le tableau de chaine de caractere en tableau d'entier
 
-                sRow = row[10]
-                sDate = row[2]
+                iTirage = map(int, sTirage)
 
-                # Si le fichier est ancien formater la date
-                if (fileLap == 4):
-                    sRow = row[12]
-                    sDate = str(row[3][6:8])+'/'+(str(row[3][4:6]))+'/'+str(row[3][0:4])
-
-                # Remplace les tiret par des virgule afin de construire une liste(un tableau)
-                sArray  = sRow.replace('-',',')
-                sArray = sArray.split("+")[0].split(",")
-
-                # Transforme le tableau de chaine de caractere en tableau d'entier
-                aFinal = map(int, sArray) 
-
+                if(range_week < user_input):
+                    #somme les sortie de chaque numéros distinct 
+                    topNumbers(iTirage)
+                    range_week+=1
+                
                 #Si on est au premier tour de boucle , le tableau qui sera comparé à tous les autres suivant sera le premier 
-                if (fileLap == 0 and tirageLap == tirage):
-                    aRef = [aFinal, sDate]
-                    #print('INIT DE aref {}'.format(aRef))
+                if (lap_more != lap):
+                    aRef = [iTirage, sDate]
+                    lap_more = lap_more+1
 
-                #Tableau contenant les nombres differents
-                aDiff   = list(set(aFinal) - set(aRef[0]))
-                #Tableau inversé contenant les nombres differents
-                aDiff2  = list(set(aRef[0]) - set(aFinal))
+                    if(lap_more > 0):
+                        lap_more=1
+                
+                if (row_lap > 1):  
+                    #Tableaux contenant les nombres qui le differencie de l'autre
+                    aDiff, aDiff2   = reverseCompare(iTirage, aRef[0])
+                    
+                    if (len(aDiff) > 7 and len(aDiff) < 9 ):
+                        getMoon(1, sDate, aRef[1])
+                        file = open("./logkeno/1-diff-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"a+")
+                        file.write("\n ⏱ {} {}      ⏰{} {} Diffs: {}replace by{} \r\n".format(sDate, iTirage, aRef[1], aRef[0], aDiff, aDiff2)) 
+                        file.close()
+                    
+                        #print("⏱ {} {}      ⏰{} {} Diffs: {}replace by{}\n".format(sDate, aFinal, aRef[1], aRef[0], aDiff, aDiff2)) 
 
-                if(rangeWeek < user_input):
-            	    #somme les sortie de chaque numéros distinct 
-                    topNumbers(tops, aFinal)
-                    rangeWeek+=1
+        if(file_lap == (len(csv_files) -1 )):
+            lap_more = 0
 
-                #Tirages avec moins de 3 chiffres dfferents
-                """if (len(aDiff) < 3 and len(aDiff) > 0):
-                    file = open("./logloto/testfile{}-{}.txt".format(tirageLap, fileLap),"w") 
-                    file.write("2 chiffres différencies ces Tirages \n Trouvé dans le fichier {} \n Le {} Tirage {} ressemble au tirage {} du {} Differences: {} \n".format(fileLap, sDate, aFinal, aRef[0], aRef[1], aDiff)) 
-                    file.close()"""
-                if (len(aDiff) < 2 and len(aDiff) > 0):
-                    file = open("./logloto/2-diff-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"a+")
-                    file.write("\n ⏱ {} {} ⏰{} {} Diffs: {}replace by{} \r\n".format(sDate, aFinal, aRef[1], aRef[0], aDiff, aDiff2)) 
-                    file.close()
-                    print("⏱ {} {} ⏰{} {} Diffs: {}replace by{}\n".format(sDate, aFinal, aRef[1], aRef[0], aDiff, aDiff2))  
-                    createOneDiff(sDate, aFinal, aRef)
+    sort_orders = sorted(tops.items(), key=lambda x: x[1], reverse=True)
+    print("Statistic de somme selon la(es) {} derniere(s) semaines(s) \n".format(user_input/21))
 
-    tirage+=1
-    if(tirage < nbrTirage):
-        compare(tops, tirage, aRef, nbrTirage,rangeWeek, user_input)
-    else:
-        sort_orders = sorted(tops.items(), key=lambda x: x[1], reverse=True)
-        print("Statistic de somme selon la(es) {} derniere(s) semaines(s) \n".format(user_input/2))
-        for i in sort_orders:
-	        print('N '+i[0], i[1])
+    for i in sort_orders:
+        print('N '+i[0], i[1])
 
 if (len(sys.argv) < 2):
     print('\n Tapez control(^)+c pour annuler.\n')
     user_input = input("Enter le nombre de tirage pris en compte pour les statistiques des Tops numbers: \n")
 else:
-    user_input = int(sys.argv[1])*2
+    user_input = int(sys.argv[1])*21
+
+#Supprime les anciens logs
+delOldFiles()
+#nettoie le terminal
+os.system('clear')
+
 print('\n Calcul en cours ...\n')
-compare(tops, tirage, aRef, nbrTirage, rangeWeek, user_input)
+
+compare(nbr_tirage, user_input)

@@ -28,77 +28,101 @@ feb04ToMay11 = '/euromillions.csv'
 
 # Les 3 derniers fichiers csv ne sont pas formatés de la meme façon , la colonne des resultats est L au lieu de M
 csv_files = [feb20ToNow, mar19ToJan20, sep16ToFev19, fev14ToSep16, may11ToJan14, feb04ToMay11]
+# This Python file uses the following encoding: utf-8
+import os, sys
+import csv
+from datetime import datetime
+from utils import getMoon, dicto , showPourcent, delOldFiles, daySort , reverseCompare, topNumbers, tops
+
+nbr_tirage = 60 #(997)
+
+##Chemin où sont placées les fichiers csv
+path = './keno'
+
+#04/11/2019 <--> 29/04/2020 ####### novembre 2019 à maintenant (Retelecharger le ficher à chaque nouveau tirage)
+nov19ToNow = '/keno_201811.csv'
+
+#27/02/2019 <--> 02/11/2019
+fev19ToNov10 = '/keno_gagnant_a_vie.csv'
+
+#06/03/2017 <--> 25/02/2019  
+mar17ToFev19 = '/keno.csv'
+
+# Les 3 derniers fichiers csv ne sont pas formatés de la meme façon , la colonne des resultats est L au lieu de M
+csv_files = [nov19ToNow, fev19ToNov10, mar17ToFev19]#, may76ToOct08]
 
 # Tableau qui sera comparé avec tous les autres tableaux suivant
 aRef = []
+die_daySort = False
+lap_more = 0
+lap = 1
+range_week = 0
 
-tirage = 1
+def compare(nbr_tirage, user_input):
+    global aRef
+    global range_week
+    global tops
+    global lap
+    global lap_more
 
-tops = {}
-
-def topNumbers(tops, aFinal):
-    for number in aFinal:
-        if (tops.get("{}".format(number)) is None):
-            numa = 0
-        else:
-            numa = tops.get("{}".format(number))
-
-        tops["{}".format(number)] =  1 + numa
-
-def compare(tops,tirage, aRef, nbrTirage):
-    for fileLap, document in enumerate(csv_files):
+    for file_lap, document in enumerate(csv_files):
         with open(path+document, 'r') as csv_file:
             csv_tirages = csv.reader(csv_file, delimiter=';')
             
-            for tirageLap, row in enumerate(csv_tirages):
-                if (tirageLap == 0):
+            for row_lap, row in enumerate(csv_tirages):
+                if (row_lap == 0):
                     continue
+                
+                sTirage = row[4:24]
+                sDate = row[1]# Transforme le tableau de chaine de caractere en tableau d'entier
 
-                sRow = row[12]
-                sDate = row[2]
-                #
-                if (fileLap > 2):
-                    sRow = row[11]
-                    sDate = str(row[2][6:8])+'/'+(str(row[2][4:6]))+'/'+str(row[2][0:4])
-                # Remplace les tiret par des virgule afin de construire une liste(un tableau)
-                sArray  = sRow.replace('-',',')
-                # Retire la premier virgule de la liste
-                aFilter1 = sArray[1:]
-                # Retire la dernière virgule de la liste
-                aFilter2 = aFilter1[:-1].split(',')
-                # Transforme le tableau de chaine de caractere en tableau d'entier
-                aFinal = map(int, aFilter2) 
+                iTirage = map(int, sTirage)
 
-                #print('TIRAGE {}'.format(tirage))
+                if(range_week < user_input):
+                    #somme les sortie de chaque numéros distinct 
+                    topNumbers(iTirage)
+                    range_week+=1
+                
                 #Si on est au premier tour de boucle , le tableau qui sera comparé à tous les autres suivant sera le premier 
-                if (fileLap == 0 and tirageLap == tirage):
-                     aRef = [aFinal, sDate]
-                    #print('INIT DE aref {}'.format(aRef))
+                if (lap_more != lap):
+                    aRef = [iTirage, sDate]
+                    lap_more = lap_more+1
 
-                aDiff   = list(set(aFinal) - set(aRef[0]))
+                    if(lap_more > 0):
+                        lap_more=1
                 
-                topNumbers(tops, aFinal)
-                #Tirages avec moins de 3 chiffres dfferents
+                if (row_lap > 1):  
+                    #Tableaux contenant les nombres qui le differencie de l'autre
+                    aDiff, aDiff2   = reverseCompare(iTirage, aRef[0])
+                    
+                    if (len(aDiff) > 7 and len(aDiff) < 9 ):
+                        #getMoon(1, sDate, aRef[1])
+                        file = open("./logeuro/1-diff-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"a+")
+                        file.write("\n ⏱ {} {}      ⏰{} {} Diffs: {}replace by{} \r\n".format(sDate, iTirage, aRef[1], aRef[0], aDiff, aDiff2)) 
+                        file.close()
+                    
+                        #print("⏱ {} {}      ⏰{} {} Diffs: {}replace by{}\n".format(sDate, aFinal, aRef[1], aRef[0], aDiff, aDiff2)) 
 
-                #if (len(aDiff) < 3 and len(aDiff) > 0):
-                #    file = open("./logeuro/testfile{}-{}.txt".format(tirageLap, fileLap),"w") 
-                #    file.write("2 chiffres différencies ces Tirages \n Trouvé dans le fichier {} \n Le {} Tirage {} ressemble au tirage {} du {} Differences: {} \n".format(fileLap, sDate, aFinal, aRef[0], aRef[1], aDiff)) 
-                #    file.close()
+        if(file_lap == (len(csv_files) -1 )):
+            lap_more = 0
 
-                if (len(aDiff) < 2 and len(aDiff) > 0):
-                    TGREEN =  '\033[32m' # Green Text
-                    print(TGREEN + "Le {} Tirage {} ressemble au tirage {} du {} Differences: {} \n".format(sDate, aFinal, aRef[0], aRef[1], aDiff)) 
-                
-                if (len(aDiff) < 3 and sDate!=aRef[1]):
-                    print( "🕓{} ⛳️{} like 🕓{} 🏄🏻‍♂️{} Differences: {} \n".format(sDate, aFinal, aRef[1], aRef[0], aDiff)) 
-                
-                #print('{} Base {} Diff {} index :{}'.format(fileLap, aFinal, aDiff, tirageLap))
-                #print('{}{}'.format(row[12], row[13]))
-    tirage+=1
-    if(tirage < nbrTirage):
-        compare(tops, tirage, aRef, nbrTirage)
-    else:
-        sort_orders = sorted(tops.items(), key=lambda x: x[1], reverse=True)
-        for i in sort_orders:
-	        print('N '+i[0], i[1])
-compare(tops,tirage, aRef, nbrTirage)
+    sort_orders = sorted(tops.items(), key=lambda x: x[1], reverse=True)
+    print("Statistic de somme selon la(es) {} derniere(s) semaines(s) \n".format(user_input/21))
+
+    for i in sort_orders:
+        print('N '+i[0], i[1])
+
+if (len(sys.argv) < 2):
+    print('\n Tapez control(^)+c pour annuler.\n')
+    user_input = input("Enter le nombre de tirage pris en compte pour les statistiques des Tops numbers: \n")
+else:
+    user_input = int(sys.argv[1])*21
+
+#Supprime les anciens logs
+delOldFiles()
+#nettoie le terminal
+os.system('clear')
+
+print('\n Calcul en cours ...\n')
+
+compare(nbr_tirage, user_input)
