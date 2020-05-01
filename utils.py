@@ -7,11 +7,15 @@ dicto = {}
 lst = []
 tops = {}
 
-day_name= ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday']
+day_name = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday']
+month_name = ['null_month','January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 #----------------------------------------------------------------------------
 
-def topNumbers(aFinal):
+def ffff(sDate, sDay_phase, sTirage):
+    getMoon(sDate)
+
+
     global tops
     for number in aFinal:
         if (tops.get("{}".format(number)) is None):
@@ -50,43 +54,50 @@ def daySort(day_name, day, dayRef, aFinal, aRefValue):
 
 #----------------------------------------------------------------------------
 
-def getMoon(nbr,sDate, aRefDate):
-    date, status, light = moon_phase(int(sDate[0:2]), int(sDate[3:5]), int(sDate[6:10]))        
-    date_ref, status_ref, light_ref = moon_phase(int(aRefDate[0:2]), int(aRefDate[3:5]), int(aRefDate[6:10]))
-    print(sDate, aRefDate)
-    file = open("./logkeno/{}-diff-{}.txt".format(nbr, datetime.today().strftime("%d-%m-%Y")),"a+")
-    file.write(
-        "{} {} ☀️ {}{} ({})                          {} {} ☀️ {}{} ({})"
-        .format(
-            status,
-            date,
-            light,
-            '%',
-            getDayWord(getDayNumber(sDate)),
-            status_ref,
-            date_ref,
-            light_ref,
-            '%',
-            getDayWord(getDayNumber(aRefDate))
-        )
-    ) 
-    file.close()
+"""manage bisextile year """
 
-    # daySort() creation des tableau par jour
-    """daySort(day_name, day, dayRef, aFinal, aRefValue)"""
+def topNumbers(sDate, sDay_phase, sTirage):
+    global month_name
 
-#----------------------------------------------------------------------------
+    #Stat pasted
+    jour = int(sDate[0:2])
+    mois = int(sDate[3:5])
+    annee = int(sDate[6:10])
+    date, status, light = moon_phase(jour, mois, annee)
 
-def showPourcent(obtain, outOf):
-    marks = int(obtain)
+    #Stat jour
+    sToday = datetime.today().strftime("%d/%m/%Y")
 
-    outof = int(outOf)
+    sToday_jour = int(sToday[0:2])
+    sToday_mois = int(sToday[3:5])
+    sToday_annee = int(sToday[6:10])
+    sToday_date, sToday_status, sToday_light = moon_phase(sToday_jour, sToday_mois, sToday_annee)
 
-    per = marks*100/outof
-    if(per == 25 or  per == 50 or per == 75 or per == 90):
-        print ('\n{} %'.format(str(per)))
+    day_word = getDayWord(getDayNumber(sToday))
+    sToday_day_word = getDayWord(getDayNumber(sDate))
 
-#----------------------------------------------------------------------------
+    month_word = month_name[mois]
+    sToday_month_word = month_name[sToday_mois]
+
+    if(str(day_word) == str(sToday_day_word)):
+        if(month_word == sToday_month_word):
+            if(status == sToday_status):
+                if(light == sToday_light):
+                    if(jour == sToday_jour):
+                        print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sToday_status, sToday_day_word, sToday_date, sToday_light ))
+                        print("\x1b[6;30;42m' +Top 🔥🔥🔥 {} + '\x1b[0m' \n".format(sTirage))
+                    else:
+                        print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sToday_status, sToday_day_word, sToday_date, sToday_light ))
+                        print("\x1b[6;30;42m' +Top 1 {} + '\x1b[0m' \n".format(sTirage))
+                else:
+                    print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sToday_status, sToday_day_word, sToday_date, sToday_light))
+                    print('Top 2 {}  \n'.format(sTirage))
+            #else:
+                #print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sToday_status, sToday_day_word, sToday_date, sToday_light))
+                #print('Top 3 {}  \n'.format(sTirage))
+        #else:
+            #print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sToday_status, sToday_day_word, sToday_date, sToday_light))
+            #print('Top 4 {}  \n'.format(sTirage)) 
 
 def delOldFiles():
     #Supprime tous les anciens fichiers de log
