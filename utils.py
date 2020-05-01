@@ -3,13 +3,90 @@ import os, sys, glob
 from datetime import datetime
 from moon import moon_phase
 
-dicto = {}
-lst = []
-tops = {}
-current_date = ''
+aDiff = aDiff2 = lst = current_tirage = []
+dicto = tops = {}
 
 day_name = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday']
 month_name = ['null_month','January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+def askInit():
+    global user_input
+    if (len(sys.argv) < 2):
+        print('\n Tapez control(^)+c pour annuler.\n')
+        user_input = input("Enter le nombre de tirage pris en compte pour les statistiques des Tops numbers: \n")
+    else:
+        user_input = int(sys.argv[1])*21
+
+"""manage bisextile year """
+
+def topNumbers(sDate, sDay_phase, sTirage):
+    global month_name
+    global current_tirage
+    global aDiff
+    global aDiff2
+
+    #Stat pasted
+    jour = int(sDate[0:2])
+    mois = int(sDate[3:5])
+    annee = int(sDate[6:10])
+    date, status, light = moon_phase(jour, mois, annee)
+
+    #Stat jour
+    sToday = datetime.today().strftime("%d/%m/%Y")
+
+    sToday_jour = int(sToday[0:2])
+    sToday_mois = int(sToday[3:5])
+    sToday_annee = int(sToday[6:10])
+    sToday_date, sToday_status, sToday_light = moon_phase(sToday_jour, sToday_mois, sToday_annee)
+
+    day_word = getDayWord(getDayNumber(sToday))
+    sToday_day_word = getDayWord(getDayNumber(sDate))
+
+    month_word = month_name[mois]
+    sToday_month_word = month_name[sToday_mois]
+    
+    #if(sToday == sDate):
+    #    current_tirage  = [sDate, sDay_phase, sTirage]
+    #    currentResult(sTirage)
+    
+    #if(current_date != sDate):
+    if(day_word == sToday_day_word):
+        if(month_word == sToday_month_word):
+            if(status == sToday_status):
+                if(light == sToday_light):
+                    if(jour == sToday_jour):
+                        print("{}--{} {} ☀️ {}% ({})   Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase, sToday_status, sToday_day_word, sToday_date, sToday_light ))
+                        print("\x1b[6;30;42m' +Top 🔥🔥🔥 {} + '\x1b[0m' \n".format(sTirage))
+                
+                    else:
+                        print("{}--{} {} ☀️ {}% ({})  Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase,  sToday_status, sToday_day_word, sToday_date, sToday_light ))
+                        print("\x1b[6;30;42m' +Top 1 {} + '\x1b[0m' \n".format(sTirage))
+                        
+                else:
+                    print("{}--{} {} ☀️ {}% ({})   Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase,  sToday_status, sToday_day_word, sToday_date, sToday_light))
+                    print('Top 2 {}  \n'.format(sTirage))
+            #else:
+            #    print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase, sToday_status, sToday_day_word, sToday_date, sToday_light))
+            #    print('Top 3 {}  \n'.format(sTirage))
+        #else:
+        #    print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase, sToday_status, sToday_day_word, sToday_date, sToday_light))
+        #    print('Top 4 {}  \n'.format(sTirage)) 
+
+def delOldFiles():
+    #Supprime tous les anciens fichiers de log
+    files_to_delete = glob.glob("./logloto/*.txt")
+    for filePath in files_to_delete:
+        try:
+            os.remove(filePath)
+        except:
+            print("Error while deleting file : ", filePath)
+    #FinSupprime
+
+
+
+
+
+
 
 #----------------------------------------------------------------------------
 
@@ -25,6 +102,8 @@ def ffff(sDate, sDay_phase, sTirage):
 #----------------------------------------------------------------------------
 
 def reverseCompare(array_1, array_2):
+    print(array_1, array_2)
+    exit()
     aDiif = list(set(array_1) - set(array_2))
     aDiif2 = list(set(array_2) - set(array_1))
     return aDiif, aDiif2
@@ -52,60 +131,15 @@ def daySort(day_name, day, dayRef, aFinal, aRefValue):
 
 #----------------------------------------------------------------------------
 
-"""manage bisextile year """
+def currentResult(sTirage):
+        global current_tirage
+        if(current_tirage is not []):
+            aDiff, aDiff2   = reverseCompare(sTirage, current_tirage[2])
+            print("\x1b[0;1;32m' Tirage d'aujourdhui : {} No Similar numbers {} {} for {} tirage + '\x1b[0m' \n".format(current_tirage[0], aDiff, aDiff2, current_tirage[1]))
 
-def topNumbers(sDate, sDay_phase, sTirage):
-    global month_name
-    global current_date
-    
-    #Stat pasted
-    jour = int(sDate[0:2])
-    mois = int(sDate[3:5])
-    annee = int(sDate[6:10])
-    date, status, light = moon_phase(jour, mois, annee)
 
-    #Stat jour
-    sToday = datetime.today().strftime("%d/%m/%Y")
+#sort_orders = sorted(tops.items(), key=lambda x: x[1], reverse=True)
+#print("Statistic de somme selon la(es) {} derniere(s) semaines(s) \n".format(user_input/21))
 
-    sToday_jour = int(sToday[0:2])
-    sToday_mois = int(sToday[3:5])
-    sToday_annee = int(sToday[6:10])
-    sToday_date, sToday_status, sToday_light = moon_phase(sToday_jour, sToday_mois, sToday_annee)
-
-    day_word = getDayWord(getDayNumber(sToday))
-    sToday_day_word = getDayWord(getDayNumber(sDate))
-
-    month_word = month_name[mois]
-    sToday_month_word = month_name[sToday_mois]
-
-    if(current_date != sDate):
-        if(str(day_word) == str(sToday_day_word)):
-            if(month_word == sToday_month_word):
-                if(status == sToday_status):
-                    if(light == sToday_light):
-                        if(jour == sToday_jour):
-                            print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sToday_status, sToday_day_word, sToday_date, sToday_light ))
-                            print("\x1b[6;30;42m' +Top 🔥🔥🔥 {} + '\x1b[0m' \n".format(sTirage))
-                        else:
-                            print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sToday_status, sToday_day_word, sToday_date, sToday_light ))
-                            print("\x1b[6;30;42m' +Top 1 {} + '\x1b[0m' \n".format(sTirage))
-                    else:
-                        print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sToday_status, sToday_day_word, sToday_date, sToday_light))
-                        print('Top 2 {}  \n'.format(sTirage))
-                #else:
-                    #print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sToday_status, sToday_day_word, sToday_date, sToday_light))
-                    #print('Top 3 {}  \n'.format(sTirage))
-            #else:
-                #print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sToday_status, sToday_day_word, sToday_date, sToday_light))
-                #print('Top 4 {}  \n'.format(sTirage)) 
-    current_date = sDate
-
-def delOldFiles():
-    #Supprime tous les anciens fichiers de log
-    files_to_delete = glob.glob("./logloto/*.txt")
-    for filePath in files_to_delete:
-        try:
-            os.remove(filePath)
-        except:
-            print("Error while deleting file : ", filePath)
-    #FinSupprime
+#for i in sort_orders:
+#    print('N '+i[0], i[1])
