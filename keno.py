@@ -9,13 +9,13 @@ nbr_tirage = 60 #(997)
 ##Chemin où sont placées les fichiers csv
 path = './keno'
 
-#04/11/2019 <--> 29/04/2020 ####### novembre 2019 à maintenant (Retelecharger le ficher à chaque nouveau tirage)
+#12/01/2019 <--> 30/04/2020 ####### novembre 2019 à maintenant (Retelecharger le ficher à chaque nouveau tirage)
 nov19ToNow = '/keno_201811.csv'
 
-#27/02/2019 <--> 02/11/2019
+#24/02/2013 <--> 11/11/2018
 fev19ToNov10 = '/keno_gagnant_a_vie.csv'
 
-#06/03/2017 <--> 25/02/2019  
+#16/09/1993 <--> 23/02/2013  
 mar17ToFev19 = '/keno.csv'
 
 # Les 3 derniers fichiers csv ne sont pas formatés de la meme façon , la colonne des resultats est L au lieu de M
