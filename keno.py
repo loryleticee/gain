@@ -2,7 +2,8 @@
 import os, sys
 import csv
 from datetime import datetime,timedelta,date
-from utils import delOldFiles, topNumbers, tops
+from utils import delOldFiles, topNumbers
+from match import somByDay, tops
 
 nbr_tirage = 60 #(997)
 
@@ -27,7 +28,7 @@ lap_more = 0
 lap = 1
 
 def compare():
-    for document in enumerate(csv_files):
+    for file_lap, document in enumerate(csv_files):
         #print('A: {} B:{}'.format(file_lap,document))
 
         with open(path+document, 'r') as csv_file:
@@ -43,8 +44,12 @@ def compare():
                 sDay_phase = row[2]
 
                 iTirage = map(int, sTirage)
-               
+
                 topNumbers(sDate, sDay_phase, iTirage)
+
+    sort_orders = sorted(tops.items(), key=lambda x: x[1], reverse=True)
+    for number in sort_orders:
+        print('N '+number[0], number[1])
 
 """askInit()"""
 
@@ -56,3 +61,4 @@ os.system('clear')
 print('\n Calcul en cours ...\n')
 
 compare()
+#os.system('python match.py {}'.format())

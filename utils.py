@@ -2,9 +2,9 @@
 import os, sys, glob
 from datetime import datetime
 from moon import moon_phase
+from match import somByDay
 
 aDiff = aDiff2 = lst = current_tirage = []
-dicto = tops = {}
 
 day_name = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday']
 month_name = ['null_month','January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -57,12 +57,14 @@ def topNumbers(sDate, sDay_phase, sTirage):
                     if(jour == sToday_jour):
                         print("{}--{} {} ☀️ {}% ({})   Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase, sToday_status, sToday_day_word, sToday_date, sToday_light ))
                         print("\x1b[6;30;42m' +Top 🔥🔥🔥 {} + '\x1b[0m' \n".format(sTirage))
-                
+                        somByDay(sDate, sDay_phase, iTirage)
                     else:
+                        somByDay(sDate, sDay_phase, sTirage)
                         print("{}--{} {} ☀️ {}% ({})  Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase,  sToday_status, sToday_day_word, sToday_date, sToday_light ))
                         print("\x1b[6;30;42m' +Top 1 {} + '\x1b[0m' \n".format(sTirage))
                         
                 else:
+                    somByDay(sDate, sDay_phase, sTirage)
                     print("{}--{} {} ☀️ {}% ({})   Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase,  sToday_status, sToday_day_word, sToday_date, sToday_light))
                     print('Top 2 {}  \n'.format(sTirage))
             #else:
@@ -81,8 +83,6 @@ def delOldFiles():
         except:
             print("Error while deleting file : ", filePath)
     #FinSupprime
-
-
 
 
 
