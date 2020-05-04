@@ -3,7 +3,7 @@ import os, sys
 import csv
 from datetime import datetime,timedelta,date
 from utils import delOldFiles, topNumbers
-from match import somByDay, tops
+from match import somByDay, tops_midi, tops_soir
 
 nbr_tirage = 60 #(997)
 
@@ -47,7 +47,12 @@ def compare():
 
                 topNumbers(sDate, sDay_phase, iTirage)
 
-    sort_orders = sorted(tops.items(), key=lambda x: x[1], reverse=True)
+    sort_orders = sorted(tops_midi.items(), key=lambda x: x[1], reverse=True)
+    print('STATISTIQUES DU MATIN')
+    for number in sort_orders:
+        print('N '+number[0], number[1])
+    sort_orders = sorted(tops_soir.items(), key=lambda x: x[1], reverse=True)
+    print('STATISTIQUES DU SOIR')
     for number in sort_orders:
         print('N '+number[0], number[1])
 
@@ -59,6 +64,18 @@ delOldFiles()
 os.system('clear')
 
 print('\n Calcul en cours ...\n')
+
+
+#download last result file and unzip
+os.system('wget https://media.fdj.fr/static/csv/keno/keno_201811.zip && unzip -o keno_201811.zip')
+#delete zip file
+os.system('rm -rf keno_201811.zip')
+#Move to keno file 
+os.system('mv keno_201811.csv keno')
+print('Done')
+
+print('\n Calcul en cours ...\n')
+
 
 compare()
 #os.system('python match.py {}'.format())

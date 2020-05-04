@@ -57,7 +57,7 @@ def topNumbers(sDate, sDay_phase, sTirage):
                     if(jour == sToday_jour):
                         print("{}--{} {} ☀️ {}% ({})   Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase, sToday_status, sToday_day_word, sToday_date, sToday_light ))
                         print("\x1b[6;30;42m' +Top 🔥🔥🔥 {} + '\x1b[0m' \n".format(sTirage))
-                        somByDay(sDate, sDay_phase, iTirage)
+                        somByDay(sDate, sDay_phase, sTirage)
                     else:
                         somByDay(sDate, sDay_phase, sTirage)
                         print("{}--{} {} ☀️ {}% ({})  Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase,  sToday_status, sToday_day_word, sToday_date, sToday_light ))
