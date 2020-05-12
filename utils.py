@@ -64,7 +64,7 @@ def topNumbers(sDate, sDay_phase, sTirage):
                         print("\x1b[6;30;42m' +Top 1 {} + '\x1b[0m' \n".format(sTirage))
                         
                 else:
-                    somByDay(sDate, sDay_phase, sTirage)
+                    #somByDay(sDate, sDay_phase, sTirage)
                     print("{}--{} {} ☀️ {}% ({})   Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase,  sToday_status, sToday_day_word, sToday_date, sToday_light))
                     print('Top 2 {}  \n'.format(sTirage))
             #else:
@@ -84,31 +84,6 @@ def delOldFiles():
             print("Error while deleting file : ", filePath)
     #FinSupprime
 
-
-
-
-
-#----------------------------------------------------------------------------
-
-def ffff(sDate, sDay_phase, sTirage):
-    global tops
-    for number in aFinal:
-        if (tops.get("{}".format(number)) is None):
-            numa = 0
-        else:
-            numa = tops.get("{}".format(number))
-
-        tops["{}".format(number)] =  1 + numa
-#----------------------------------------------------------------------------
-
-def reverseCompare(array_1, array_2):
-    print(array_1, array_2)
-    exit()
-    aDiif = list(set(array_1) - set(array_2))
-    aDiif2 = list(set(array_2) - set(array_1))
-    return aDiif, aDiif2
-#----------------------------------------------------------------------------
-
 def getDayNumber(sDate):
     return int(datetime.strptime(sDate, '%d/%m/%Y').weekday())
 
@@ -120,26 +95,8 @@ def getDayWord(iDay):
 
 #----------------------------------------------------------------------------
 
-def daySort(day_name, day, dayRef, aFinal, aRefValue):
-    if(day_name[day] == day_name[dayRef]):
-        #dicto[day_name[day]] = []
-        global lst
-        lst.append(aFinal)
-        lst.append(aRefValue)
-        dicto.update( {day_name[day]: [lst]} )
-        dicto.update( {day_name[dayRef]: [lst]} )
-
-#----------------------------------------------------------------------------
-
 def currentResult(sTirage):
         global current_tirage
         if(current_tirage is not []):
             aDiff, aDiff2   = reverseCompare(sTirage, current_tirage[2])
             print("\x1b[0;1;32m' Tirage d'aujourdhui : {} No Similar numbers {} {} for {} tirage + '\x1b[0m' \n".format(current_tirage[0], aDiff, aDiff2, current_tirage[1]))
-
-
-#sort_orders = sorted(tops.items(), key=lambda x: x[1], reverse=True)
-#print("Statistic de somme selon la(es) {} derniere(s) semaines(s) \n".format(user_input/21))
-
-#for i in sort_orders:
-#    print('N '+i[0], i[1])

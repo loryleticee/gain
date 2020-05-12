@@ -3,7 +3,7 @@ import os, sys
 import csv
 from datetime import datetime,timedelta,date
 from utils import delOldFiles, topNumbers
-from match import somByDay, tops_midi, tops_soir
+from match import somByDay,somByMonth, tops_midi, tops_soir, tops_midi_month, tops_soir_month
 
 nbr_tirage = 60 #(997)
 
@@ -40,21 +40,56 @@ def compare():
                     continue
                 
                 sTirage = row[4:24]
-                sDate = row[1]# Transforme le tableau de chaine de caractere en tableau d'entier
+                sDate = row[1]
                 sDay_phase = row[2]
 
                 iTirage = map(int, sTirage)
 
+                if(sDate <= (datetime.today()-timedelta(days=6)).strftime("%d/%m/%Y")):
+                    somByMonth(sDate, sDay_phase, sTirage)
+                
                 topNumbers(sDate, sDay_phase, iTirage)
+
+
+    if(os.path.exists("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")))):
+        file = open("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"w+")
+
+    else:
+        file = open("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"a+")
 
     sort_orders = sorted(tops_midi.items(), key=lambda x: x[1], reverse=True)
     print('STATISTIQUES DU MATIN')
+    file.write('STATISTIQUES DU MATIN \n')  
     for number in sort_orders:
         print('N '+number[0], number[1])
-    sort_orders = sorted(tops_soir.items(), key=lambda x: x[1], reverse=True)
+        file.write('N{}, {} \n'.format(number[0], number[1])) 
+
+    sort_orders = sorted(tops_soir.items(), key=lambda y: y[1], reverse=True)
     print('STATISTIQUES DU SOIR')
+    file.write('STATISTIQUES DU SOIR \n')  
     for number in sort_orders:
         print('N '+number[0], number[1])
+        file.write('N{}, {} \n'.format(number[0], number[1]))  
+    
+
+    sort_orders = sorted(tops_midi_month.items(), key=lambda z: z[1], reverse=True)
+    print('STATISTIQUES SUR LE DERNIERS MOI MATIN')
+    file.write('STATISTIQUES SUR LE DERNIERS MOI MATIN \n')  
+    for number in sort_orders:
+        print('N '+number[0], number[1])
+        file.write('N{}, {} \n'.format(number[0], number[1]))  
+    
+
+    sort_orders = sorted(tops_soir_month.items(), key=lambda a: a[1], reverse=True)
+    print('STATISTIQUES SUR LE DERNIERS MOI SOIR')
+    file.write('STATISTIQUES SUR LE DERNIERS MOI SOIR \n')  
+    for number in sort_orders:
+        print('N '+number[0], number[1])
+        file.write('N{}, {} \n'.format(number[0], number[1]))
+    file.close()
+
+    #send stats in a telegram channel
+    os.system('telegram-send --file ./logkeno/stats-{}.txt'.format(datetime.today().strftime("%d-%m-%Y")))
 
 """askInit()"""
 
@@ -65,7 +100,6 @@ os.system('clear')
 
 print('\n Calcul en cours ...\n')
 
-
 #download last result file and unzip
 os.system('wget https://media.fdj.fr/static/csv/keno/keno_201811.zip && unzip -o keno_201811.zip')
 #delete zip file
@@ -75,7 +109,6 @@ os.system('mv keno_201811.csv keno')
 print('Done')
 
 print('\n Calcul en cours ...\n')
-
 
 compare()
 #os.system('python match.py {}'.format())
