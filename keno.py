@@ -2,7 +2,7 @@
 import os, sys
 import csv
 from datetime import datetime,timedelta,date
-from utils import delOldFiles, topNumbers
+from utils import topNumbers
 from match import somByDay,somByMonth, tops_midi, tops_soir, tops_midi_month, tops_soir_month
 
 nbr_tirage = 60 #(997)
@@ -97,12 +97,10 @@ def compare():
 
 """askInit()"""
 
-#Supprime les anciens logs
-delOldFiles()
 #nettoie le terminal
 os.system('clear')
 
-print('\n Calcul en cours ...\n')
+print('\n Mise à jour des derniers tirages en cours ...\n')
 
 #download last result file and unzip
 os.system('wget https://media.fdj.fr/static/csv/keno/keno_201811.zip && unzip -o keno_201811.zip')
