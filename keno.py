@@ -24,10 +24,14 @@ csv_files = [nov19ToNow, fev19ToNov10, mar17ToFev19]#, may76ToOct08]
 
 # Tableau qui sera comparé avec tous les autres tableaux suivant
 die_daySort = False
-lap_more = 0
+lap_more = count_day = 0
 lap = 1
+limit_tirages = 12
 
 def compare():
+    global count_day
+    global limit_tirages
+
     for file_lap, document in enumerate(csv_files):
         #print('A: {} B:{}'.format(file_lap,document))
 
@@ -42,10 +46,10 @@ def compare():
                 sTirage = row[4:24]
                 sDate = row[1]
                 sDay_phase = row[2]
-
                 iTirage = map(int, sTirage)
 
-                if(sDate <= (datetime.today()-timedelta(days=6)).strftime("%d/%m/%Y")):
+                if( count_day < limit_tirages ):
+                    count_day += 1
                     somByMonth(sDate, sDay_phase, sTirage)
                 
                 topNumbers(sDate, sDay_phase, iTirage)
@@ -58,31 +62,31 @@ def compare():
         file = open("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"a+")
 
     sort_orders = sorted(tops_midi.items(), key=lambda x: x[1], reverse=True)
-    print('STATISTIQUES DU MATIN')
-    file.write('STATISTIQUES DU MATIN \n')  
+    print('TOP Numeros pour ce MIDI')
+    file.write('TOP Numeros pour ce MIDI \n')  
     for number in sort_orders:
         print('N '+number[0], number[1])
         file.write('N{}, {} \n'.format(number[0], number[1])) 
 
     sort_orders = sorted(tops_soir.items(), key=lambda y: y[1], reverse=True)
-    print('STATISTIQUES DU SOIR')
-    file.write('STATISTIQUES DU SOIR \n')  
+    print('TOP Numeros pour ce SOIR')
+    file.write('TOP Numeros pour ce SOIR \n')  
     for number in sort_orders:
         print('N '+number[0], number[1])
         file.write('N{}, {} \n'.format(number[0], number[1]))  
     
 
     sort_orders = sorted(tops_midi_month.items(), key=lambda z: z[1], reverse=True)
-    print('STATISTIQUES SUR LE DERNIERS MOI MATIN')
-    file.write('STATISTIQUES SUR LE DERNIERS MOI MATIN \n')  
+    print('TOP Numeros sur les SIX DERNIERS tirages du MIDI')
+    file.write('TOP Numeros sur les SIX DERNIERS tirages du MIDI \n')  
     for number in sort_orders:
         print('N '+number[0], number[1])
         file.write('N{}, {} \n'.format(number[0], number[1]))  
     
 
     sort_orders = sorted(tops_soir_month.items(), key=lambda a: a[1], reverse=True)
-    print('STATISTIQUES SUR LE DERNIERS MOI SOIR')
-    file.write('STATISTIQUES SUR LE DERNIERS MOI SOIR \n')  
+    print('TOP Numeros sur les SIX DERNIERS tirages du SOIR')
+    file.write('TOP Numeros sur les SIX DERNIERS tirages du SOIR \n')  
     for number in sort_orders:
         print('N '+number[0], number[1])
         file.write('N{}, {} \n'.format(number[0], number[1]))

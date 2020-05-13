@@ -45,11 +45,6 @@ def topNumbers(sDate, sDay_phase, sTirage):
     month_word = month_name[mois]
     sToday_month_word = month_name[sToday_mois]
     
-    #if(sToday == sDate):
-    #    current_tirage  = [sDate, sDay_phase, sTirage]
-    #    currentResult(sTirage)
-    
-    #if(current_date != sDate):
     if(day_word == sToday_day_word):
         if(month_word == sToday_month_word):
             if(status == sToday_status):
@@ -67,22 +62,6 @@ def topNumbers(sDate, sDay_phase, sTirage):
                     #somByDay(sDate, sDay_phase, sTirage)
                     print("{}--{} {} ☀️ {}% ({})   Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase,  sToday_status, sToday_day_word, sToday_date, sToday_light))
                     print('Top 2 {}  \n'.format(sTirage))
-            #else:
-            #    print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase, sToday_status, sToday_day_word, sToday_date, sToday_light))
-            #    print('Top 3 {}  \n'.format(sTirage))
-        #else:
-        #    print("{}--{} {} ☀️ {}%    Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase, sToday_status, sToday_day_word, sToday_date, sToday_light))
-        #    print('Top 4 {}  \n'.format(sTirage)) 
-
-def delOldFiles():
-    #Supprime tous les anciens fichiers de log
-    files_to_delete = glob.glob("./logloto/*.txt")
-    for filePath in files_to_delete:
-        try:
-            os.remove(filePath)
-        except:
-            print("Error while deleting file : ", filePath)
-    #FinSupprime
 
 def getDayNumber(sDate):
     return int(datetime.strptime(sDate, '%d/%m/%Y').weekday())
