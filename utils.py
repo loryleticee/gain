@@ -79,3 +79,8 @@ def currentResult(sTirage):
         if(current_tirage is not []):
             aDiff, aDiff2   = reverseCompare(sTirage, current_tirage[2])
             print("\x1b[0;1;32m' Tirage d'aujourdhui : {} No Similar numbers {} {} for {} tirage + '\x1b[0m' \n".format(current_tirage[0], aDiff, aDiff2, current_tirage[1]))
+
+
+#produit cartésien 
+#cross join (Msql)
+#donne les toutes combinaisons possible entre un nombre delement donnée 
