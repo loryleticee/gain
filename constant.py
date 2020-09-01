@@ -1,5 +1,4 @@
 # This Python file uses the following encoding: utf-8
-
 nbr_tirage = 60 #(997)
 
 #Chemin où sont placées les fichiers csv
@@ -19,7 +18,7 @@ csv_files = [nov19ToNow, fev19ToNov10, mar17ToFev19]#, may76ToOct08]
 
 lap_more = count_day = 0
 lap = 1
-limit_tirages = 12
+limit_tirages = 6
 
 tops_soir_month = {str(x): 0 for x in range(1,71)}
 tops_midi_month = {str(x): 0 for x in range(1,71)}

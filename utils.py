@@ -1,8 +1,12 @@
 # This Python file uses the following encoding: utf-8
 import os, sys, glob
+#import pandas as pds
 from datetime import datetime
 from moon import moon_phase
 from match import somByDay
+
+#date_n= pds.to_datetime('2020/06/24')
+#print('A: {}'.format(date_n))
 
 aDiff = aDiff2 = lst = current_tirage = []
 
@@ -33,7 +37,7 @@ def topNumbers(sDate, sDay_phase, sTirage):
 
     #Stat jour
     sToday = datetime.today().strftime("%d/%m/%Y")
-
+    
     sToday_jour = int(sToday[0:2])
     sToday_mois = int(sToday[3:5])
     sToday_annee = int(sToday[6:10])

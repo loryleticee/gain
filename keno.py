@@ -12,7 +12,7 @@ def init():
 
     print('\n Mise à jour des derniers tirages en cours ...\n')
 
-    #download last result file and unzip
+    #download last result file and unzip 
     os.system('wget https://media.fdj.fr/static/csv/keno/keno_201811.zip && unzip -o keno_201811.zip')
     #delete zip file
     os.system('rm -rf keno_201811.zip')
