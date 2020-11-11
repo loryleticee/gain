@@ -3,8 +3,14 @@ import os, sys
 import csv
 from datetime import datetime, timedelta, date
 from utils import topNumbers
-from match import somByDay,somByMonth, tops_midi, tops_soir, tops_midi_month, tops_soir_month
-from constant import nbr_tirage, path, nov19ToNow, fev19ToNov10, mar17ToFev19, csv_files, lap_more, count_day, lap, limit_tirages
+from match import somByDay, tops_midi
+from constant import nbr_tirage, path, csv_files, lap_more, count_day, lap, limit_tirages
+
+n1 = int( sys.argv[1] )
+n2 = int( sys.argv[2] )
+n3 = int( sys.argv[3] )
+n4 = int( sys.argv[4] )
+n5 = int( sys.argv[5] )
 
 def init():
     #nettoie le terminal
@@ -25,56 +31,33 @@ def init():
 #----------------------------------------------------------
 
 def compare():
-    global count_day
-    global limit_tirages
+#    global count_day
+#    global limit_tirages
 
     for file_lap, document in enumerate(csv_files):
+        print('file_lap' ,file_lap)
         with open(path+document, 'r') as csv_file:
             csv_tirages = csv.reader(csv_file, delimiter=';')
             
             for row_lap, row in enumerate(csv_tirages):
                 if (row_lap == 0):
                     continue
-                #END if
-                sTirage = row[4:24]
-                sDate = row[1]
-                sDay_phase = row[2]
+
+                sTirage = row[4:9]
+                sComp = row[9]
+                #print(sTirage)
+                #print('comp = ',sComp)
+
                 iTirage = map(int, sTirage)
-
-                if(count_day < limit_tirages):
-                    count_day += 1
-                    somByMonth(sDate, sDay_phase, sTirage)
-                #END if
-
-                topNumbers(sDate, sDay_phase, iTirage)
+                somByDay(sTirage, n1, n2, n3 , n4, n5)
             #END for
     #END for
+    print('--------------------- \n\n')
+    sort_orders = sorted(tops_midi.items(), key=lambda x: x[1], reverse=True)
+    #file.write('{} Numeros \n'.format(ph))  
+    for number in sort_orders:
+        print('N '+number[0], number[1])
+        #file.write('N{}, {} \n'.format(number[0], number[1])) 
 
-    if(os.path.exists("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")))):
-        file = open("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"w+")
-    else:
-        file = open("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"a+")
-
-    items_phases_day =  {'tops_midi':tops_midi.items(), 'tops_soir':tops_soir.items(), 'tops_midi_month':tops_midi_month.items(), 'tops_soir_month':tops_soir_month.items()}
-
-    for index, ph in enumerate(items_phases_day):
-        sort_orders = sorted(items_phases_day[ph], key=lambda x: x[1], reverse=True)
-        print('{} Numeros'.format(ph))
-        file.write('{} Numeros \n'.format(ph))  
-        for number in sort_orders:
-            print('N '+number[0], number[1])
-            file.write('N{}, {} \n'.format(number[0], number[1])) 
-    file.close()
-
-    #send stats in a telegram channel
-    os.system('telegram-send --file ./logkeno/stats-{}.txt'.format(datetime.today().strftime("%d-%m-%Y")))
-
-#End def compare()
-#----------------------------------------------------------
-
-###------------------------------------------------------------- START HERE 
-
-# Step 1 : Launch init function 
-init()
 # Step 2 : Launch compare function 
 compare()

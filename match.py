@@ -2,24 +2,39 @@
 import os, sys
 import csv
 from datetime import datetime, timedelta, date
-from constant import tops_soir_month, tops_midi_month, tops_soir, tops_midi
+from constant import tops_midi
 
-def somByDay(sDate, sDay_phase, iTirage):
+isN1 = isN2 = isN3 = isN4 = isN5 = isN6 = False
+
+def somByDay(iTirage, n1, n2, n3 , n4, n5):
+    global isN1
+    global isN2
+    global isN3
+    global isN4
+    global isN5
+
     for item in iTirage:
-        if(sDay_phase == 'midi'):
-            number = tops_midi.get("{}".format(item))
-            tops_midi["{}".format(item)] =  number + 1
+        number = tops_midi.get("{}".format(item))
+        tops_midi["{}".format(item)] =  number + 1
 
-        if(sDay_phase == 'soir'):
-            number = tops_soir.get("{}".format(item))
-            tops_soir["{}".format(item)] =  number + 1
+        if(str(item) == str(n1)):
+            isN1 = True
+
+        if(str(item) == str(n2)):
+            isN2 = True
+
+        if(str(item) == str(n3)):
+            isN3 = True
+
+        if(str(item) == str(n4)):
+            isN4 = True
+
+        if(str(item) == str(n5)):
+            isN5 = True
+
+    if(isN1 == True & isN2 == True & isN3 == True & isN4 == True & isN5 == True):
+        print(iTirage)
+        isN1 = isN2 = isN3 = isN4 = isN5 = False
+    else:
+        isN1 = isN2 = isN3 = isN4 = isN5 = False
             
-def somByMonth(sDate, sDay_phase, iTirage):
-    for item in iTirage:
-        if(sDay_phase == 'midi'):
-            number = tops_midi_month.get("{}".format(item))
-            tops_midi_month["{}".format(item)] =  number + 1
-
-        if(sDay_phase == 'soir'):
-            number = tops_soir_month.get("{}".format(item))
-            tops_soir_month["{}".format(item)] =  number + 1
