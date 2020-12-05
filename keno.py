@@ -6,6 +6,8 @@ from utils import topNumbers
 from match import somByDay,somByMonth, tops_midi, tops_soir, tops_midi_month, tops_soir_month
 from constant import nbr_tirage, path, nov19ToNow, fev19ToNov10, mar17ToFev19, csv_files, lap_more, count_day, lap, limit_tirages
 
+n1 = int( sys.argv[1] )
+
 def init():
     #nettoie le terminal
     os.system('clear')
@@ -14,11 +16,10 @@ def init():
 
     #download last result file and unzip 
     os.system('wget https://media.fdj.fr/static/csv/keno/keno_202010.zip && unzip -o keno_202010.zip')
-    #delete zip file
-    time.sleep(1)
     #Move to keno file 
     os.system('mv keno_202010.csv keno')
     time.sleep(1)
+    #delete zip file
     os.system('rm -rf keno_202010.zip')
 #END init()
 #----------------------------------------------------------
@@ -75,7 +76,9 @@ def compare():
     file.close()
 
     #send stats in a telegram channel
-    os.system('telegram-send --file ./logkeno/stats-{}.txt'.format(datetime.today().strftime("%d-%m-%Y")))
+    if(n1 == 1):
+        os.system('telegram-send --file ./logkeno/stats-{}.txt'.format(datetime.today().strftime("%d-%m-%Y")))
+    
 
 #End def compare()
 #----------------------------------------------------------
