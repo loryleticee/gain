@@ -42,9 +42,8 @@ def compare():
                 iTirage = map(int, sTirage)
                 
                 topNumbers(sDate, sDay_phase, iTirage)
-                #print('row_lap', row_lap)
-                if(int(row_lap) < int(limit_tirages+1)):
-                    #print('done', row_lap)
+                if(int(count_day) < int(limit_tirages+1)):
+                    count_day+=1
                     somByMonth(sDate, sDay_phase, sTirage)
                 #END if
             #END for
@@ -59,10 +58,10 @@ def compare():
 
     for index, ph in enumerate(items_phases_day):
         sort_orders = sorted(items_phases_day[ph], key=lambda x: x[1], reverse=True)
-        #print('{} Numeros'.format(ph))
+        print('{} Numeros'.format(ph))
         file.write('{} Numeros \n'.format(ph))  
         for number in sort_orders:
-            #print('N '+number[0], number[1])
+            print('N '+number[0], number[1])
             file.write('N{}, {} \n'.format(number[0], number[1])) 
     file.close()
 
