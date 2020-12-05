@@ -28,5 +28,3 @@ tops_soir_month = {str(x): 0 for x in range(1,71)}
 tops_midi_month = {str(x): 0 for x in range(1,71)}
 tops_soir= {str(x): 0 for x in range(1,71)}
 tops_midi= {str(x): 0 for x in range(1,71)}
-allCombinaison = [x for x in range(1,71)]
-print('OOOOOOOOOO',list(product(allCombinaison, repeat=10)))

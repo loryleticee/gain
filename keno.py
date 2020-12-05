@@ -67,7 +67,7 @@ def compare():
     file.close()
 
     #send stats in a telegram channel
-    #os.system('telegram-send --file ./logkeno/stats-{}.txt'.format(datetime.today().strftime("%d-%m-%Y")))
+    os.system('telegram-send --file ./logkeno/stats-{}.txt'.format(datetime.today().strftime("%d-%m-%Y")))
 
 #End def compare()
 #----------------------------------------------------------
@@ -75,6 +75,6 @@ def compare():
 ###------------------------------------------------------------- START HERE 
 
 # Step 1 : Launch init function 
-#init()
+init()
 # Step 2 : Launch compare function 
 compare()
