@@ -5,11 +5,6 @@ from datetime import datetime
 from moon import moon_phase
 from match import somByDay
 
-#date_n= pds.to_datetime('2020/06/24')
-#print('A: {}'.format(date_n))
-
-aDiff = aDiff2 = lst = current_tirage = []
-
 day_name = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday']
 month_name = ['null_month','January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
@@ -25,9 +20,7 @@ def askInit():
 
 def topNumbers(sDate, sDay_phase, sTirage):
     global month_name
-    global current_tirage
-    global aDiff
-    global aDiff2
+
 
     #Stat pasted
     jour = int(sDate[0:2])

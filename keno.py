@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-import os, sys
+import os, sys, time
 import csv
 from datetime import datetime, timedelta, date
 from utils import topNumbers
@@ -13,14 +13,13 @@ def init():
     print('\n Mise à jour des derniers tirages en cours ...\n')
 
     #download last result file and unzip 
-    os.system('wget https://media.fdj.fr/static/csv/keno/keno_202010.zip && unzip -o keno_201811.zip')
+    os.system('wget https://media.fdj.fr/static/csv/keno/keno_202010.zip && unzip -o keno_202010.zip')
     #delete zip file
-    os.system('rm -rf keno_202010.zip')
+    time.sleep(1)
     #Move to keno file 
     os.system('mv keno_202010.csv keno')
-    print('Done')
-
-    print('\n Calcul en cours ...\n')
+    time.sleep(1)
+    os.system('rm -rf keno_202010.zip')
 #END init()
 #----------------------------------------------------------
 
@@ -66,7 +65,7 @@ def compare():
     file.close()
 
     #send stats in a telegram channel
-    os.system('telegram-send --file ./logkeno/stats-{}.txt'.format(datetime.today().strftime("%d-%m-%Y")))
+    #os.system('telegram-send --file ./logkeno/stats-{}.txt'.format(datetime.today().strftime("%d-%m-%Y")))
 
 #End def compare()
 #----------------------------------------------------------
