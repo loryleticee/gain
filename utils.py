@@ -55,17 +55,17 @@ def topNumbers(sDate, sDay_phase, sTirage):
                 if(light == sToday_light):
                     if(jour == sToday_jour):
                         print("{}--{} {} ☀️ {}% ({})   Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase, sToday_status, sToday_day_word, sToday_date, sToday_light ))
-                        print("\x1b[6;30;42m' +Top 🔥🔥🔥 {} + '\x1b[0m' \n".format(sTirage))
+                        print("\x1b[6;30;42m' +Top 🔥🔥🔥 {} + '\x1b[0m' \n".format(list(sTirage)))
                         somByDay(sDate, sDay_phase, sTirage)
                     else:
-                        somByDay(sDate, sDay_phase, sTirage)
                         print("{}--{} {} ☀️ {}% ({})  Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase,  sToday_status, sToday_day_word, sToday_date, sToday_light ))
-                        print("\x1b[6;30;42m' +Top 1 {} + '\x1b[0m' \n".format(sTirage))
+                        print("\x1b[6;30;42m Top 1 {} \x1b[0m \n".format(list(sTirage)))
+                        somByDay(sDate, sDay_phase, sTirage)
                         
                 else:
                     #somByDay(sDate, sDay_phase, sTirage)
                     print("{}--{} {} ☀️ {}% ({})   Today is : {} {} {} ☀️ {}% ".format(status, day_word, date,  light, sDay_phase,  sToday_status, sToday_day_word, sToday_date, sToday_light))
-                    print('Top 2 {}  \n'.format(sTirage))
+                    print('Top 2 {}  \n'.format(list(sTirage)))
 
 def getDayNumber(sDate):
     return int(datetime.strptime(sDate, '%d/%m/%Y').weekday())
@@ -77,13 +77,6 @@ def getDayWord(iDay):
     return str(day_name[iDay])
 
 #----------------------------------------------------------------------------
-
-def currentResult(sTirage):
-        global current_tirage
-        if(current_tirage is not []):
-            aDiff, aDiff2   = reverseCompare(sTirage, current_tirage[2])
-            print("\x1b[0;1;32m' Tirage d'aujourdhui : {} No Similar numbers {} {} for {} tirage + '\x1b[0m' \n".format(current_tirage[0], aDiff, aDiff2, current_tirage[1]))
-
 
 #produit cartésien 
 #cross join (Msql)

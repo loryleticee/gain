@@ -13,11 +13,11 @@ def init():
     print('\n Mise à jour des derniers tirages en cours ...\n')
 
     #download last result file and unzip 
-    os.system('wget https://media.fdj.fr/static/csv/keno/keno_201811.zip && unzip -o keno_201811.zip')
+    os.system('wget https://media.fdj.fr/static/csv/keno/keno_202010.zip && unzip -o keno_201811.zip')
     #delete zip file
-    os.system('rm -rf keno_201811.zip')
+    os.system('rm -rf keno_202010.zip')
     #Move to keno file 
-    os.system('mv keno_201811.csv keno')
+    os.system('mv keno_202010.csv keno')
     print('Done')
 
     print('\n Calcul en cours ...\n')
@@ -40,13 +40,13 @@ def compare():
                 sDate = row[1]
                 sDay_phase = row[2]
                 iTirage = map(int, sTirage)
-
-                if(count_day < limit_tirages):
-                    count_day += 1
+                
+                topNumbers(sDate, sDay_phase, iTirage)
+                #print('row_lap', row_lap)
+                if(int(row_lap) < int(limit_tirages+1)):
+                    #print('done', row_lap)
                     somByMonth(sDate, sDay_phase, sTirage)
                 #END if
-
-                topNumbers(sDate, sDay_phase, iTirage)
             #END for
     #END for
 
@@ -55,19 +55,19 @@ def compare():
     else:
         file = open("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"a+")
 
-    items_phases_day =  {'tops_midi':tops_midi.items(), 'tops_soir':tops_soir.items(), 'tops_midi_month':tops_midi_month.items(), 'tops_soir_month':tops_soir_month.items()}
+    items_phases_day =  {'tops_midi':tops_midi.items(), 'tops_midi_month':tops_midi_month.items(), 'tops_soir':tops_soir.items(), 'tops_soir_month':tops_soir_month.items()}
 
     for index, ph in enumerate(items_phases_day):
         sort_orders = sorted(items_phases_day[ph], key=lambda x: x[1], reverse=True)
-        print('{} Numeros'.format(ph))
+        #print('{} Numeros'.format(ph))
         file.write('{} Numeros \n'.format(ph))  
         for number in sort_orders:
-            print('N '+number[0], number[1])
+            #print('N '+number[0], number[1])
             file.write('N{}, {} \n'.format(number[0], number[1])) 
     file.close()
 
     #send stats in a telegram channel
-    os.system('telegram-send --file ./logkeno/stats-{}.txt'.format(datetime.today().strftime("%d-%m-%Y")))
+    #os.system('telegram-send --file ./logkeno/stats-{}.txt'.format(datetime.today().strftime("%d-%m-%Y")))
 
 #End def compare()
 #----------------------------------------------------------
@@ -75,6 +75,6 @@ def compare():
 ###------------------------------------------------------------- START HERE 
 
 # Step 1 : Launch init function 
-init()
+#init()
 # Step 2 : Launch compare function 
 compare()

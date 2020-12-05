@@ -16,6 +16,7 @@ def somByDay(sDate, sDay_phase, iTirage):
             
 def somByMonth(sDate, sDay_phase, iTirage):
     for item in iTirage:
+        #print('OOOOOOOOOOO',sDay_phase, 'TTTTTTT', iTirage)
         if(sDay_phase == 'midi'):
             number = tops_midi_month.get("{}".format(item))
             tops_midi_month["{}".format(item)] =  number + 1
