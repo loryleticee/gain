@@ -6,11 +6,11 @@ from utils import topNumbers
 from match import somByDay, tops_midi
 from constant import nbr_tirage, path, csv_files, lap_more, count_day, lap, limit_tirages
 
-n1 = int( sys.argv[1] )
-n2 = int( sys.argv[2] )
-n3 = int( sys.argv[3] )
-n4 = int( sys.argv[4] )
-n5 = int( sys.argv[5] )
+
+# numberArray = {x for x in range(1,51)}
+# possibleComb = 1906884
+numberArray = {x for x in range(1,10)}
+possibleComb = 1023
 
 def init():
     #nettoie le terminal
@@ -19,11 +19,11 @@ def init():
     print('\n Mise à jour des derniers tirages en cours ...\n')
 
     #download last result file and unzip 
-    os.system('wget https://media.fdj.fr/static/csv/keno/keno_201811.zip && unzip -o keno_201811.zip')
+    os.system('wget https://media.fdj.fr/static/csv/loto/loto_201911.zip && unzip -o loto_201911.zip')
     #delete zip file
-    os.system('rm -rf keno_201811.zip')
+    os.system('rm -rf loto_201911.zip')
     #Move to keno file 
-    os.system('mv keno_201811.csv keno')
+    os.system('mv -f loto_201911.csv keno')
     print('Done')
 
     print('\n Calcul en cours ...\n')
@@ -31,9 +31,6 @@ def init():
 #----------------------------------------------------------
 
 def compare():
-#    global count_day
-#    global limit_tirages
-
     for file_lap, document in enumerate(csv_files):
         print('file_lap' ,file_lap)
         with open(path+document, 'r') as csv_file:
@@ -44,20 +41,43 @@ def compare():
                     continue
 
                 sTirage = row[4:9]
+                sDate = row[2]
                 sComp = row[9]
-                #print(sTirage)
-                #print('comp = ',sComp)
-
                 iTirage = map(int, sTirage)
-                somByDay(sTirage, n1, n2, n3 , n4, n5)
+                topNumbers(sDate, iTirage)
+                
+
+               
             #END for
     #END for
-    print('--------------------- \n\n')
-    sort_orders = sorted(tops_midi.items(), key=lambda x: x[1], reverse=True)
-    #file.write('{} Numeros \n'.format(ph))  
+    if(os.path.exists("./logkeno/loto-{}.txt".format(datetime.today().strftime("%d-%m-%Y")))):
+        file = open("./logkeno/loto-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"w+")
+    else:
+        file = open("./logkeno/loto-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"a+")
+    sort_orders = sorted(tops_midi.items(), key=lambda x: x[1], reverse=True) 
     for number in sort_orders:
-        print('N '+number[0], number[1])
+        file.write('N{}, {} \n'.format(number[0], number[1])) 
         #file.write('N{}, {} \n'.format(number[0], number[1])) 
+    file.close()
 
+
+def cartesian_product(s, dim):
+    res = [(e,) for e in s]
+    for i in range(dim - 1):
+        res = [e + (f,) for e in res for f in s]
+    return res
+
+def cartesian():
+    fileCartesian = open("./cartesian/cartesian.txt","w+")
+    for i in range(possibleComb+1):
+        if i != possibleComb:
+            continue
+        else:
+            rawDatas = cartesian_product(numberArray, i)
+            formatDatas = str(rawDatas).replace('(','[').replace(')',']')
+            fileCartesian.write(formatDatas)
 # Step 2 : Launch compare function 
-compare()
+#init()
+#compare()
+print('Realisation du produit cartesien ...')
+cartesian()
