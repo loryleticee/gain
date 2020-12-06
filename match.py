@@ -35,10 +35,10 @@ def somByDay4(sTirage, n1, n2, n3, n4, ip, sDate):
             continue
 
     if(isN1 == True & isN2 == True & isN3 == True & isN4 == True):
-        if(os.path.exists("./exist/exist-"ipAdress+".txt")):
-            fileTiragExist = open("./exist/exist-"ipAdress+".txt","a+")
+        if(os.path.exists("./exist/exist-"+ipAdress+".txt")):
+            fileTiragExist = open("./exist/exist-"+ipAdress+".txt","a+")
         else:
-            fileTiragExist = open("./exist/exist-"ipAdress+".txt","w+")
+            fileTiragExist = open("./exist/exist-"+ipAdress+".txt","w+")
         
         iTirage = list(map(int, sTirage))
         tirage = str(iTirage)
