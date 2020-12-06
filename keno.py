@@ -3,7 +3,7 @@ import os, sys
 import csv
 from datetime import datetime, timedelta, date
 # from utils import topNumbers
-from match import  somByDay3, tops_midi
+from match import  somByDay4, tops_midi
 from constant import nbr_tirage, path, csv_files, lap_more, count_day, lap, limit_tirages
 
 n1 = int( sys.argv[1] )
