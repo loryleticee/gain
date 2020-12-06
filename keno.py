@@ -12,13 +12,11 @@ n3 = int( sys.argv[3] )
 ip = str( sys.argv[4] )
 i = 0
 
-
 def init():
     #nettoie le terminal
     os.system('clear')
 
     print('\n Mise à jour des derniers tirages en cours ...\n')
-
     #download last result file and unzip 
     os.system('wget https://media.fdj.fr/static/csv/loto/loto_201911.zip && unzip -o loto_201911.zip')
     #delete zip file
@@ -64,5 +62,5 @@ def compare():
 
 
 # Step 2 : Launch compare function 
-init()
+# init()
 compare()

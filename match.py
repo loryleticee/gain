@@ -1,17 +1,21 @@
+import os
 from datetime import datetime, timedelta, date
 from constant import tops_midi
 from utils import getDate, getDayWord, month_name, day_name
 isN1 = isN2 = isN3 = False
-            
-def somByDay3(iTirage, n1, n2, n3, ip, sDate):
+
+fileIsEmpty = True
+
+def somByDay3(sTirage, n1, n2, n3, ip, sDate):
     ipAdress = ip.replace('.','')
     now =  date.today().strftime("%d-%m-%Y")
 
     global isN1
     global isN2
     global isN3
+    global fileIsEmpty
 
-    for item in iTirage:
+    for item in sTirage:
         number = tops_midi.get("{}".format(item))
         tops_midi["{}".format(item)] =  number + 1
 
@@ -25,9 +29,20 @@ def somByDay3(iTirage, n1, n2, n3, ip, sDate):
             isN3 = True
 
     if(isN1 == True & isN2 == True & isN3 == True):
-        fileTiragExist = open("./exist/exist-"+ now +'-'+ ipAdress+".txt","w+")
-        fileTiragExist.write(str('[["'+getDate(sDate)+'"],'+str(iTirage)+']'))
+        if(os.path.exists("./exist/exist-"+ now +'-'+ ipAdress+".txt")):
+            fileTiragExist = open("./exist/exist-"+ now +'-'+ ipAdress+".txt","a+")
+        else:
+            fileTiragExist = open("./exist/exist-"+ now +'-'+ ipAdress+".txt","w+")
+        
+        iTirage = list(map(int, sTirage))
+        tirage = str(iTirage)
+        fileTiragExist.write(str('[["'+getDate(sDate)+'"],'+str(tirage)+']'))
+        fileIsEmpty = False
         isN1 = isN2 = isN3 = False
+        print(tirage + ' ' + getDate(sDate))
     else:
         isN1 = isN2 = isN3 = False
-    # fileTiragExist.close()
+    #fileTiragExist.close()
+    if (fileIsEmpty):
+        fileTiragExist = open("./exist/exist-"+ now +'-'+ ipAdress+".txt","w+")
+        fileTiragExist.write('[[]]')
