@@ -3,7 +3,7 @@ import os, sys
 import csv
 from datetime import datetime, timedelta, date
 # from utils import topNumbers
-from match import  somByDay3, tops_midi
+from match import  somByDay5, tops_midi
 from constant import nbr_tirage, path, csv_files, lap_more, count_day, lap, limit_tirages
 
 n1 = int( sys.argv[1] )
@@ -55,7 +55,7 @@ def compare():
                 sComp = row[9]
                 sDate = row[2]
                 iTirage = map(int, sTirage)
-                somByDay3(sTirage, n1, n2, n3, n4, n5, ip, sDate)
+                somByDay5(sTirage, n1, n2, n3, n4, n5, ip, sDate)
                 i+=1
             #END for
     #END for

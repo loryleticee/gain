@@ -6,7 +6,7 @@ isN1 = isN2 = isN3 = isN4 = isN5 = False
 
 fileIsEmpty = True
 
-def somByDay3(sTirage, n1, n2, n3, n4, n5, ip, sDate):
+def somByDay5(sTirage, n1, n2, n3, n4, n5, ip, sDate):
     ipAdress = ip.replace('.','')
     now =  date.today().strftime("%d-%m-%Y")
 
