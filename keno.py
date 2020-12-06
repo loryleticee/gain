@@ -9,7 +9,8 @@ from constant import nbr_tirage, path, csv_files, lap_more, count_day, lap, limi
 n1 = int( sys.argv[1] )
 n2 = int( sys.argv[2] )
 n3 = int( sys.argv[3] )
-ip = str( sys.argv[4] )
+n4 = int( sys.argv[4] )
+ip = str( sys.argv[5] )
 i = 0
 
 def init():
@@ -36,6 +37,7 @@ def compare():
     global n1
     global n2
     global n3
+    global n4
     global ip
     global i 
 
@@ -51,7 +53,7 @@ def compare():
                 sComp = row[9]
                 sDate = row[2]
                 iTirage = map(int, sTirage)
-                somByDay3(sTirage, n1, n2, n3, ip, sDate)
+                somByDay4(sTirage, n1, n2, n3, n4, ip, sDate)
                 i+=1
             #END for
     #END for
