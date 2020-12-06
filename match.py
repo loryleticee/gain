@@ -8,7 +8,6 @@ fileIsEmpty = True
 
 def somByDay3(sTirage, n1, n2, n3, ip, sDate):
     ipAdress = ip.replace('.','')
-    now =  date.today().strftime("%d-%m-%Y")
 
     global isN1
     global isN2
@@ -31,10 +30,10 @@ def somByDay3(sTirage, n1, n2, n3, ip, sDate):
             continue
 
     if(isN1 == True & isN2 == True & isN3 == True):
-        if(os.path.exists("./exist/exist-"+ now +'-'+ ipAdress+".txt")):
-            fileTiragExist = open("./exist/exist-"+ now +'-'+ ipAdress+".txt","a+")
+        if(os.path.exists("./exist/exist-"+ipAdress+".txt")):
+            fileTiragExist = open("./exist/exist-"+ipAdress+".txt","a+")
         else:
-            fileTiragExist = open("./exist/exist-"+ now +'-'+ ipAdress+".txt","w+")
+            fileTiragExist = open("./exist/exist-"+ipAdress+".txt","w+")
         
         iTirage = list(map(int, sTirage))
         tirage = str(iTirage)
@@ -46,5 +45,5 @@ def somByDay3(sTirage, n1, n2, n3, ip, sDate):
         isN1 = isN2 = isN3 = False
     #fileTiragExist.close()
     if (fileIsEmpty):
-        fileTiragExist = open("./exist/exist-"+ now +'-'+ ipAdress+".txt","w+")
+        fileTiragExist = open("./exist/exist-"+ipAdress+".txt","w+")
         fileTiragExist.write('[[]]')
