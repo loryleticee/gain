@@ -23,18 +23,23 @@ def somByDay5(sTirage, n1, n2, n3, n4, n5, ip, sDate):
 
         if(str(item) == str(n1)):
             isN1 = True
+            continue
 
         if(str(item) == str(n2)):
             isN2 = True
+            continue
 
         if(str(item) == str(n3)):
             isN3 = True
+            continue
 
         if(str(item) == str(n4)):
             isN4 = True
+            continue
 
         if(str(item) == str(n5)):
             isN5 = True
+            continue
 
     if(isN1 == True & isN2 == True & isN3 == True & isN4 == True & isN5 == True):
         if(os.path.exists("./exist/exist-"+ now +'-'+ ipAdress+".txt")):
