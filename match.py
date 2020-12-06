@@ -22,15 +22,18 @@ def somByDay4(sTirage, n1, n2, n3, n4, ip, sDate):
 
         if(str(item) == str(n1)):
             isN1 = True
+            continue
 
         if(str(item) == str(n2)):
             isN2 = True
-
+            continue
         if(str(item) == str(n3)):
             isN3 = True
+            continue
 
         if(str(item) == str(n4)):
             isN4 = True
+            continue
 
     if(isN1 == True & isN2 == True & isN3 == True & isN4 == True):
         if(os.path.exists("./exist/exist-"+ now +'-'+ ipAdress+".txt")):
@@ -40,13 +43,16 @@ def somByDay4(sTirage, n1, n2, n3, n4, ip, sDate):
         
         iTirage = list(map(int, sTirage))
         tirage = str(iTirage)
+
         fileTiragExist.write(str('[["'+getDate(sDate)+'"],'+str(tirage)+']'))
         fileIsEmpty = False
-        isN1 = isN2 = isN3 = isN4 ==False
+
+        isN1 = isN2 = isN3 = isN4 = False
         print(tirage + ' ' + getDate(sDate))
     else:
-        isN1 = isN2 = isN3 = isN4 == False
-    #fileTiragExist.close()
+        isN1 = isN2 = isN3 = isN4 = False
+    
     if (fileIsEmpty):
         fileTiragExist = open("./exist/exist-"+ now +'-'+ ipAdress+".txt","w+")
         fileTiragExist.write('[[]]')
+#fileTiragExist.close()
