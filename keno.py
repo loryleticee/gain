@@ -14,6 +14,11 @@ def init():
 
     print('\n Mise à jour des derniers tirages en cours ...\n')
 
+    if(os.path.exists("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")))):
+        file = open("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"w+")
+    else:
+        file = open("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"a+")
+
     #download last result file and unzip 
     os.system('wget https://media.fdj.fr/static/csv/keno/keno_202010.zip && unzip -o keno_202010.zip')
     #Move to keno file 
