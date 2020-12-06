@@ -21,12 +21,14 @@ def somByDay3(sTirage, n1, n2, n3, ip, sDate):
 
         if(str(item) == str(n1)):
             isN1 = True
-
+            continue
         if(str(item) == str(n2)):
             isN2 = True
+            continue
 
         if(str(item) == str(n3)):
             isN3 = True
+            continue
 
     if(isN1 == True & isN2 == True & isN3 == True):
         if(os.path.exists("./exist/exist-"+ now +'-'+ ipAdress+".txt")):
