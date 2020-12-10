@@ -11,21 +11,24 @@ n1 = int( sys.argv[1] )
 def init():
     #nettoie le terminal
     os.system('clear')
+    print('Runing ...')
+    fileSize = open("./size.txt", "r")
+    oldSize = fileSize.read()
+    fileSize.close()
+    newSize = os.popen("curl -sI https://media.fdj.fr/static/csv/keno/keno_202010.zip | grep -i Content-Length | awk '{print $2} '").read()
 
-    print('\n Mise à jour des derniers tirages en cours ...\n')
-
-    if(os.path.exists("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")))):
-        file = open("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"w+")
-    else:
-        file = open("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"a+")
-
-    #download last result file and unzip 
-    os.system('wget https://media.fdj.fr/static/csv/keno/keno_202010.zip && unzip -o keno_202010.zip')
-    #Move to keno file 
-    os.system('mv keno_202010.csv keno')
-    time.sleep(1)
-    #delete zip file
-    os.system('rm -rf keno_202010.zip')
+    if(newSize > oldSize):
+        print('\n Mise à jour des derniers tirages en cours ...\n')
+        #download last result file and unzip 
+        os.system('wget https://media.fdj.fr/static/csv/keno/keno_202010.zip && unzip -o keno_202010.zip')
+        #Move to keno file 
+        os.system('mv keno_202010.csv keno')
+        time.sleep(1)
+        #delete zip file
+        os.system('rm -rf keno_202010.zip')
+        fileSize = open("./size.txt", "w+")
+        fileSize.write(newSize)
+        fileSize.close()
 #END init()
 #----------------------------------------------------------
 
