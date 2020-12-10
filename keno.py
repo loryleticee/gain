@@ -29,6 +29,8 @@ def init():
         fileSize = open("./size.txt", "w+")
         fileSize.write(newSize)
         fileSize.close()
+    else:
+        print('Last result no yet save')
 #END init()
 #----------------------------------------------------------
 
