@@ -19,12 +19,10 @@ def init():
     print('Runing ...')
     fileSize = open("./size.txt", "r")
     oldSize = fileSize.read()
-    print('oldSize', oldSize)
     fileSize.close()
     newSize = os.popen("curl -sI https://media.fdj.fr/static/csv/euromillions/euromillions_202002.zip | grep -i Content-Length | awk '{print $2} '").read()
-    print('ff', newSize)
-    print(int(newSize) > int(oldSize))
-    if(newSize > oldSize):
+
+    if(int(newSize) > int(oldSize)):
         print('\n Mise à jour des derniers tirages en cours ...\n')
         #download last result file and unzip 
         os.system('wget https://media.fdj.fr/static/csv/euromillions/euromillions_202002.zip && unzip -o euromillions_202002.zip')
@@ -67,7 +65,7 @@ def compare():
                     continue
 
                 sDate=row[2]
-                
+
                 if(file_lap == 0):
                     year = row[2][0:4]
                     month = row[2][4:6]
