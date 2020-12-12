@@ -6,7 +6,7 @@ isN1 = isN2 = isN3 = isN4 = False
 
 fileIsEmpty = True
 
-def somByDay(sTirage, n1, n2, n3, ip, sDate):
+def somByDay(sTirage, n1, n2, n3, n4, ip, sDate):
     ipAdress = ip.replace('.','')
     global isN1
     global isN2
