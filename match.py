@@ -2,7 +2,7 @@ import os
 from datetime import datetime, timedelta, date
 from constant import tops_midi
 from utils import getDate, getDayWord, month_name, day_name
-isN1 = isN2 = isN3 = False
+isN1 = isN2 = isN3 = isN4 = isN5 =False
 
 fileIsEmpty = True
 
