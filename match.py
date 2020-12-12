@@ -41,9 +41,11 @@ def somByDay(sTirage, n1, n2, n3, ip, sDate):
         fileIsEmpty = False
         isN1 = isN2 = isN3 = False
         print(tirage + ' ' + getDate(sDate))
+        fileTiragExist.close()
     else:
         isN1 = isN2 = isN3 = False
-    #fileTiragExist.close()
     if (fileIsEmpty):
         fileTiragExist = open("./exist/exist-"+ipAdress+".txt","w+")
         fileTiragExist.write('[[]]')
+        fileTiragExist.close()
+
