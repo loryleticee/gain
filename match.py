@@ -11,6 +11,8 @@ def somByDay(sTirage, n1, n2, n3, n4, n5, ip, sDate):
     global isN1
     global isN2
     global isN3
+    global isN4
+    global isN5
     global fileIsEmpty
     
     for item in sTirage:
