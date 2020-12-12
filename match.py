@@ -6,16 +6,17 @@ isN1 = isN2 = isN3 = False
 
 fileIsEmpty = True
 
-def somByDay3(sTirage, n1, n2, n3, ip, sDate):
+def somByDay(sTirage, n1, n2, n3, ip, sDate):
     ipAdress = ip.replace('.','')
-
+    print(sDate)
     global isN1
     global isN2
     global isN3
     global fileIsEmpty
-
+    
     for item in sTirage:
         number = tops_midi.get("{}".format(item))
+       
         tops_midi["{}".format(item)] =  number + 1
 
         if(str(item) == str(n1)):
