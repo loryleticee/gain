@@ -10,7 +10,9 @@ from utils import topNumbers
 n1 = int( sys.argv[1] )
 n2 = int( sys.argv[2] )
 n3 = int( sys.argv[3] )
-ip = str( sys.argv[4] )
+n4 = int( sys.argv[4] )
+n5 = int( sys.argv[5] )
+ip = str( sys.argv[6] )
 i = 0
 
 def init():
@@ -54,6 +56,8 @@ def compare():
     global n1
     global n2
     global n3
+    global n4
+    global n5
     global ip
 
     for file_lap, document in enumerate(csv_files):
@@ -83,7 +87,7 @@ def compare():
                 # sDate = row[2]
                 iTirage = map(int, sTirage)
                 #topNumbers(sDate, sDay_tirage, iTirage)
-                somByDay(sTirage, n1, n2, n3, ip, sDate)
+                somByDay(sTirage, n1, n2, n3, n4, n5, ip, sDate)
             #END for()
     #END for
 

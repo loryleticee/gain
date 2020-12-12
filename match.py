@@ -6,7 +6,7 @@ isN1 = isN2 = isN3 = False
 
 fileIsEmpty = True
 
-def somByDay(sTirage, n1, n2, n3, ip, sDate):
+def somByDay(sTirage, n1, n2, n3, n4, n5, ip, sDate):
     ipAdress = ip.replace('.','')
     global isN1
     global isN2
@@ -29,7 +29,15 @@ def somByDay(sTirage, n1, n2, n3, ip, sDate):
             isN3 = True
             continue
 
-    if(isN1 == True & isN2 == True & isN3 == True):
+        if(str(item) == str(n4)):
+            isN4 = True
+            continue
+
+        if(str(item) == str(n5)):
+            isN5 = True
+            continue
+
+    if(isN1 == True & isN2 == True & isN3 == True & isN4 == True & isN5 == True):
         if(os.path.exists("./exist/exist-"+ipAdress+".txt")):
             fileTiragExist = open("./exist/exist-"+ipAdress+".txt","a+")
         else:
@@ -39,11 +47,11 @@ def somByDay(sTirage, n1, n2, n3, ip, sDate):
         tirage = str(iTirage)
         fileTiragExist.write(str('[["'+getDate(sDate)+'"],'+str(tirage)+']'))
         fileIsEmpty = False
-        isN1 = isN2 = isN3 = False
+        isN1 = isN2 = isN3 = isN4 = isN5 = False
         print(tirage + ' ' + getDate(sDate))
         fileTiragExist.close()
     else:
-        isN1 = isN2 = isN3 = False
+        isN1 = isN2 = isN3 = isN4 = isN5 = False
     if (fileIsEmpty):
         fileTiragExist = open("./exist/exist-"+ipAdress+".txt","w+")
         fileTiragExist.write('[[]]')
