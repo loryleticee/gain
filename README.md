@@ -5,9 +5,6 @@ C'est justement un jeu de "Hasard" un jeu de hasard
 
 Fichier index : keno.py
 
-Manipulation des Frames , series, liste
-
-Numpy, Pandas ...
 
 
 
