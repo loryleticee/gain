@@ -2,7 +2,7 @@ import os
 from datetime import datetime, timedelta, date
 from constant import tops_midi
 from utils import getDate, getDayWord, month_name, day_name
-isN1 = isN2 = isN3 = False
+isN1 = isN2 = isN3 = isN4 = False
 
 fileIsEmpty = True
 
@@ -29,7 +29,11 @@ def somByDay(sTirage, n1, n2, n3, ip, sDate):
             isN3 = True
             continue
 
-    if(isN1 == True & isN2 == True & isN3 == True):
+        if(str(item) == str(n4)):
+            isN4 = True
+            continue
+
+    if(isN1 == True & isN2 == True & isN3 == True & isN4 == True):
         if(os.path.exists("./exist/exist-"+ipAdress+".txt")):
             fileTiragExist = open("./exist/exist-"+ipAdress+".txt","a+")
         else:
@@ -39,11 +43,11 @@ def somByDay(sTirage, n1, n2, n3, ip, sDate):
         tirage = str(iTirage)
         fileTiragExist.write(str('[["'+getDate(sDate)+'"],'+str(tirage)+']'))
         fileIsEmpty = False
-        isN1 = isN2 = isN3 = False
+        isN1 = isN2 = isN3 = isN4 = False
         print(tirage + ' ' + getDate(sDate))
         fileTiragExist.close()
     else:
-        isN1 = isN2 = isN3 = False
+        isN1 = isN2 = isN3 = isN4 = False
     if (fileIsEmpty):
         fileTiragExist = open("./exist/exist-"+ipAdress+".txt","w+")
         fileTiragExist.write('[[]]')
