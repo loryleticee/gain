@@ -8,7 +8,6 @@ fileIsEmpty = True
 
 def somByDay(sTirage, n1, n2, n3, ip, sDate):
     ipAdress = ip.replace('.','')
-    print(sDate)
     global isN1
     global isN2
     global isN3

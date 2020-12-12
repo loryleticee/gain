@@ -20,9 +20,9 @@ def init():
     fileSize = open("./size.txt", "r")
     oldSize = fileSize.read()
     fileSize.close()
-    newSize = os.popen("curl -sI https://media.fdj.fr/static/csv/euromillions/euromillions_202002.zip | grep -i Content-Length | awk '{print $2} '").read()
-
-    if(int(newSize) > int(oldSize)):
+    newSize = int(os.popen("curl -sI https://media.fdj.fr/static/csv/euromillions/euromillions_202002.zip | grep -i Content-Length | awk '{print $2} '").read())
+  
+    if(newSize > int(oldSize)):
         print('\n Mise à jour des derniers tirages en cours ...\n')
         #download last result file and unzip 
         os.system('wget https://media.fdj.fr/static/csv/euromillions/euromillions_202002.zip && unzip -o euromillions_202002.zip')
@@ -41,7 +41,7 @@ def init():
         #delete zip file
         os.system('rm -rf euromillions_202002.zip')
         fileSize = open("./size.txt", "w+")
-        fileSize.write(newSize)
+        fileSize.write(str(newSize))
         fileSize.close()
     else:
         print('Last result no yet save')
