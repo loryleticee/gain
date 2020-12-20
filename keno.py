@@ -37,7 +37,9 @@ def init():
 def compare():
     global count_day
     global limit_tirages
-
+    global tops_midi_month
+    global tops_soir_month
+    
     for file_lap, document in enumerate(csv_files):
         with open(path+document, 'r') as csv_file:
             csv_tirages = csv.reader(csv_file, delimiter=';')
@@ -50,25 +52,16 @@ def compare():
                 sDate = row[1]
                 sDay_phase = row[2]
                 iTirage = map(int, sTirage)
-
-                topNumbers(sDate, sDay_phase, list(iTirage))
-            #END for
-
-            for row_lap, row in enumerate(csv_tirages):
-                if (row_lap == 0):
-                    continue
-                #END if
-                sTirage = row[4:24]
-                sDate = row[1]
-                sDay_phase = row[2]
-                iTirage = map(int, sTirage)
+                format_tirage = list(iTirage)
+                topNumbers(sDate, sDay_phase, format_tirage)
+            
                 if(int(count_day) < int(limit_tirages+1)):
                     count_day+=1
-                    somByMonth(sDate, sDay_phase, list(iTirage))
+                    somByMonth(sDate, sDay_phase, format_tirage)
                 #END if
             #END for
-    #END for
 
+    #END for
     if(os.path.exists("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")))):
         file = open("./logkeno/stats-{}.txt".format(datetime.today().strftime("%d-%m-%Y")),"w+")
     else:

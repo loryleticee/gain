@@ -66,9 +66,3 @@ def getDayNumber(sDate):
 def getDayWord(iDay):
     global day_name
     return str(day_name[iDay])
-
-#----------------------------------------------------------------------------
-
-#produit cartésien 
-#cross join (Msql)
-#donne les toutes combinaisons possible entre un nombre delement donnée 
