@@ -33,7 +33,7 @@ def compare():
 
     #send stats in a telegram channel
     if(n1 == 1):
-        os.system('telegram-send --file ./logkeno/stats-{}.txt'.format(datetime.today().strftime("%d-%m-%Y")))
+        os.system(os.getenv('TELEGRAM_SEND')+'{}.txt'.format(datetime.today().strftime("%d-%m-%Y")))
 #----------------------------------------------------------
  
 init()
