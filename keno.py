@@ -4,7 +4,7 @@ import csv
 import FileFunc.file  as ff
 from datetime import datetime
 import match
-import os, sys, time
+import os, sys
 
 n1 = int( sys.argv[1] )
 

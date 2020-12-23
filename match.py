@@ -4,7 +4,6 @@ import csv
 from datetime import datetime, timedelta, date
 from moon import moon_phase 
 from utils import getDayWord, getDayNumber
-import os, sys
 
 def get_draw(row):
     sTirage = row[4:24]
