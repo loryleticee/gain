@@ -1,7 +1,7 @@
-from itertools import product
-
 # This Python file uses the following encoding: utf-8
 nbr_tirage = 60 #(997)
+
+month_name = ['null_month','January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 #Chemin où sont placées les fichiers csv
 path = './keno'
